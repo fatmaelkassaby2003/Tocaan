@@ -1,0 +1,1211 @@
+{
+  "info": {
+    "_postman_id": "558ee988-1e0f-40c1-89b2-6f9732f2505e",
+    "name": "Tocaan - Order & Payment API",
+    "description": "RESTful API for managing orders and payments with JWT authentication and multiple payment gateways (Strategy Pattern).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40100669"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Fatma Elkassaby\",\n    \"email\": \"fatma@example.com\",\n    \"password\": \"password123\",\n    \"password_confirmation\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Register a new user account. Returns a JWT token upon success."
+          },
+          "response": [
+            {
+              "name": "Success (201)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"Fatma Elkassaby\",\n    \"email\": \"fatma@example.com\",\n    \"password\": \"password123\",\n    \"password_confirmation\": \"password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/register",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "register"
+                  ]
+                },
+                "description": "Register a new user account. Returns a JWT token upon success."
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "Text",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"User registered successfully\",\n    \"data\": {\n        \"user\": {\n            \"id\": 1,\n            \"name\": \"Fatma Elkassaby\",\n            \"email\": \"fatma@example.com\",\n            \"created_at\": \"2026-06-27T10:00:00.000000Z\",\n            \"updated_at\": \"2026-06-27T10:00:00.000000Z\"\n        },\n        \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...\",\n        \"type\": \"bearer\"\n    }\n}"
+            },
+            {
+              "name": "Validation Error (422)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"Fatma Elkassaby\",\n    \"email\": \"fatma@example.com\",\n    \"password\": \"password123\",\n    \"password_confirmation\": \"password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/register",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "register"
+                  ]
+                },
+                "description": "Register a new user account. Returns a JWT token upon success."
+              },
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "_postman_previewlanguage": "Text",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"errors\": {\n        \"email\": [\"The email has already been taken.\"],\n        \"password\": [\"The password field must be at least 8 characters.\"]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.success && jsonData.data.token) {",
+                  "    pm.collectionVariables.set('token', jsonData.data.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"fatma@example.com\",\n    \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Login with email and password. The returned token is auto-saved to the collection variable."
+          },
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"fatma@example.com\",\n    \"password\": \"password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                },
+                "description": "Login with email and password. The returned token is auto-saved to the collection variable."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Login successful\",\n    \"data\": {\n        \"user\": {\n            \"id\": 1,\n            \"name\": \"Fatma Elkassaby\",\n            \"email\": \"fatma@example.com\"\n        },\n        \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...\",\n        \"type\": \"bearer\"\n    }\n}"
+            },
+            {
+              "name": "Invalid Credentials (401)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"fatma@example.com\",\n    \"password\": \"password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                },
+                "description": "Login with email and password. The returned token is auto-saved to the collection variable."
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "Text",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"Invalid credentials\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Me (Current User)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/me",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            },
+            "description": "Get the currently authenticated user's details."
+          },
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/auth/me",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "me"
+                  ]
+                },
+                "description": "Get the currently authenticated user's details."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"Fatma Elkassaby\",\n        \"email\": \"fatma@example.com\",\n        \"created_at\": \"2026-06-27T10:00:00.000000Z\",\n        \"updated_at\": \"2026-06-27T10:00:00.000000Z\"\n    }\n}"
+            },
+            {
+              "name": "Unauthenticated (401)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/auth/me",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "me"
+                  ]
+                },
+                "description": "Get the currently authenticated user's details."
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "Text",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Unauthenticated.\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/logout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "logout"
+              ]
+            },
+            "description": "Logout the current user and invalidate the JWT token."
+          },
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/auth/logout",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "logout"
+                  ]
+                },
+                "description": "Logout the current user and invalidate the JWT token."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Logged out successfully\"\n}"
+            }
+          ]
+        }
+      ],
+      "description": "User authentication endpoints (Register, Login, Logout, Me)"
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"notes\": \"Please deliver before 5 PM\",\n    \"items\": [\n        {\n            \"product_name\": \"Wireless Mouse\",\n            \"quantity\": 2,\n            \"price\": 25.99\n        },\n        {\n            \"product_name\": \"USB-C Cable\",\n            \"quantity\": 3,\n            \"price\": 9.99\n        }\n    ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/orders",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            },
+            "description": "Create a new order with items. The total is auto-calculated from items (quantity × price)."
+          },
+          "response": [
+            {
+              "name": "Success (201)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"notes\": \"Please deliver before 5 PM\",\n    \"items\": [\n        {\n            \"product_name\": \"Wireless Mouse\",\n            \"quantity\": 2,\n            \"price\": 25.99\n        },\n        {\n            \"product_name\": \"USB-C Cable\",\n            \"quantity\": 3,\n            \"price\": 9.99\n        }\n    ]\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/orders",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "orders"
+                  ]
+                },
+                "description": "Create a new order with items. The total is auto-calculated from items (quantity × price)."
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "Text",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Order created successfully\",\n    \"data\": {\n        \"id\": 1,\n        \"user_id\": 1,\n        \"status\": \"pending\",\n        \"total\": \"81.95\",\n        \"notes\": \"Please deliver before 5 PM\",\n        \"created_at\": \"2026-06-27T10:00:00.000000Z\",\n        \"updated_at\": \"2026-06-27T10:00:00.000000Z\",\n        \"items\": [\n            {\n                \"id\": 1,\n                \"order_id\": 1,\n                \"product_name\": \"Wireless Mouse\",\n                \"quantity\": 2,\n                \"price\": \"25.99\",\n                \"subtotal\": \"51.98\"\n            },\n            {\n                \"id\": 2,\n                \"order_id\": 1,\n                \"product_name\": \"USB-C Cable\",\n                \"quantity\": 3,\n                \"price\": \"9.99\",\n                \"subtotal\": \"29.97\"\n            }\n        ]\n    }\n}"
+            },
+            {
+              "name": "Validation Error (422)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"notes\": \"Please deliver before 5 PM\",\n    \"items\": [\n        {\n            \"product_name\": \"Wireless Mouse\",\n            \"quantity\": 2,\n            \"price\": 25.99\n        },\n        {\n            \"product_name\": \"USB-C Cable\",\n            \"quantity\": 3,\n            \"price\": 9.99\n        }\n    ]\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/orders",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "orders"
+                  ]
+                },
+                "description": "Create a new order with items. The total is auto-calculated from items (quantity × price)."
+              },
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "_postman_previewlanguage": "Text",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"errors\": {\n        \"items\": [\"The items field is required.\"],\n        \"items.0.product_name\": [\"The items.0.product_name field is required.\"]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "List All Orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/orders",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "orders"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "pending",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Retrieve all orders for the authenticated user with pagination (10 per page)."
+          },
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/orders",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "orders"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "pending",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "description": "Retrieve all orders for the authenticated user with pagination (10 per page)."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"data\": {\n        \"current_page\": 1,\n        \"data\": [\n            {\n                \"id\": 1,\n                \"user_id\": 1,\n                \"status\": \"pending\",\n                \"total\": \"81.95\",\n                \"notes\": \"Please deliver before 5 PM\",\n                \"items\": [],\n                \"payments\": []\n            }\n        ],\n        \"per_page\": 10,\n        \"total\": 1\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "View Single Order",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/orders/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "orders",
+                "1"
+              ]
+            },
+            "description": "Get details of a specific order including its items and payments."
+          },
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/orders/1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "orders",
+                    "1"
+                  ]
+                },
+                "description": "Get details of a specific order including its items and payments."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"data\": {\n        \"id\": 1,\n        \"user_id\": 1,\n        \"status\": \"pending\",\n        \"total\": \"81.95\",\n        \"notes\": \"Please deliver before 5 PM\",\n        \"items\": [\n            {\n                \"id\": 1,\n                \"product_name\": \"Wireless Mouse\",\n                \"quantity\": 2,\n                \"price\": \"25.99\",\n                \"subtotal\": \"51.98\"\n            }\n        ],\n        \"payments\": []\n    }\n}"
+            },
+            {
+              "name": "Unauthorized (403)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/orders/1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "orders",
+                    "1"
+                  ]
+                },
+                "description": "Get details of a specific order including its items and payments."
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "Text",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"Unauthorized\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update Order",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"confirmed\",\n    \"notes\": \"Updated delivery instructions\",\n    \"items\": [\n        {\n            \"product_name\": \"Wireless Mouse\",\n            \"quantity\": 1,\n            \"price\": 25.99\n        },\n        {\n            \"product_name\": \"Keyboard\",\n            \"quantity\": 1,\n            \"price\": 49.99\n        }\n    ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/orders/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "orders",
+                "1"
+              ]
+            },
+            "description": "Update an existing order. Can update status, notes, and items. If items are provided, old items are replaced."
+          },
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"status\": \"confirmed\",\n    \"notes\": \"Updated delivery instructions\",\n    \"items\": [\n        {\n            \"product_name\": \"Wireless Mouse\",\n            \"quantity\": 1,\n            \"price\": 25.99\n        },\n        {\n            \"product_name\": \"Keyboard\",\n            \"quantity\": 1,\n            \"price\": 49.99\n        }\n    ]\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/orders/1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "orders",
+                    "1"
+                  ]
+                },
+                "description": "Update an existing order. Can update status, notes, and items. If items are provided, old items are replaced."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Order updated successfully\",\n    \"data\": {\n        \"id\": 1,\n        \"status\": \"confirmed\",\n        \"total\": \"75.98\",\n        \"notes\": \"Updated delivery instructions\",\n        \"items\": [\n            {\n                \"product_name\": \"Wireless Mouse\",\n                \"quantity\": 1,\n                \"price\": \"25.99\",\n                \"subtotal\": \"25.99\"\n            },\n            {\n                \"product_name\": \"Keyboard\",\n                \"quantity\": 1,\n                \"price\": \"49.99\",\n                \"subtotal\": \"49.99\"\n            }\n        ]\n    }\n}"
+            },
+            {
+              "name": "Validation Error (422)",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"status\": \"confirmed\",\n    \"notes\": \"Updated delivery instructions\",\n    \"items\": [\n        {\n            \"product_name\": \"Wireless Mouse\",\n            \"quantity\": 1,\n            \"price\": 25.99\n        },\n        {\n            \"product_name\": \"Keyboard\",\n            \"quantity\": 1,\n            \"price\": 49.99\n        }\n    ]\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/orders/1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "orders",
+                    "1"
+                  ]
+                },
+                "description": "Update an existing order. Can update status, notes, and items. If items are provided, old items are replaced."
+              },
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "_postman_previewlanguage": "Text",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"errors\": {\n        \"status\": [\"The selected status is invalid.\"]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete Order",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/orders/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "orders",
+                "1"
+              ]
+            },
+            "description": "Delete an order. Will fail if the order has associated payments."
+          },
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/orders/1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "orders",
+                    "1"
+                  ]
+                },
+                "description": "Delete an order. Will fail if the order has associated payments."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Order deleted successfully\"\n}"
+            },
+            {
+              "name": "Has Payments (422)",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/orders/1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "orders",
+                    "1"
+                  ]
+                },
+                "description": "Delete an order. Will fail if the order has associated payments."
+              },
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "_postman_previewlanguage": "Text",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"Cannot delete order with associated payments\"\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Order management endpoints (CRUD with status filtering)"
+    },
+    {
+      "name": "Payments",
+      "item": [
+        {
+          "name": "Process Payment (Credit Card)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"order_id\": 1,\n    \"payment_method\": \"credit_card\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/payments/process",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "payments",
+                "process"
+              ]
+            },
+            "description": "Process a payment using credit card gateway. Order must be in 'confirmed' status."
+          },
+          "response": [
+            {
+              "name": "Success (201)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"order_id\": 1,\n    \"payment_method\": \"credit_card\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/payments/process",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "payments",
+                    "process"
+                  ]
+                },
+                "description": "Process a payment using credit card gateway. Order must be in 'confirmed' status."
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "Text",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Payment processed successfully\",\n    \"data\": {\n        \"id\": 1,\n        \"payment_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n        \"order_id\": 1,\n        \"status\": \"successful\",\n        \"payment_method\": \"credit_card\",\n        \"amount\": \"81.95\",\n        \"gateway_response\": {\n            \"success\": true,\n            \"transaction_id\": \"CC-667e1a2b3c4d5\",\n            \"message\": \"Credit card payment processed successfully\",\n            \"gateway\": \"credit_card\",\n            \"amount\": 81.95\n        },\n        \"order\": {\n            \"id\": 1,\n            \"status\": \"confirmed\",\n            \"total\": \"81.95\"\n        }\n    }\n}"
+            },
+            {
+              "name": "Order Not Confirmed (422)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"order_id\": 1,\n    \"payment_method\": \"credit_card\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/payments/process",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "payments",
+                    "process"
+                  ]
+                },
+                "description": "Process a payment using credit card gateway. Order must be in 'confirmed' status."
+              },
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "_postman_previewlanguage": "Text",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"Payments can only be processed for confirmed orders\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "List All Payments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/payments",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "payments"
+              ],
+              "query": [
+                {
+                  "key": "order_id",
+                  "value": "1",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Retrieve all payments for the authenticated user with pagination."
+          },
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/payments",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "payments"
+                  ],
+                  "query": [
+                    {
+                      "key": "order_id",
+                      "value": "1",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "description": "Retrieve all payments for the authenticated user with pagination."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"data\": {\n        \"current_page\": 1,\n        \"data\": [\n            {\n                \"id\": 1,\n                \"payment_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n                \"order_id\": 1,\n                \"status\": \"successful\",\n                \"payment_method\": \"credit_card\",\n                \"amount\": \"81.95\",\n                \"order\": {\n                    \"id\": 1,\n                    \"status\": \"confirmed\"\n                }\n            }\n        ],\n        \"per_page\": 10,\n        \"total\": 1\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "View Single Payment",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/payments/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "payments",
+                "1"
+              ]
+            },
+            "description": "Get details of a specific payment including its associated order."
+          },
+          "response": [
+            {
+              "name": "Success (200)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/payments/1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "payments",
+                    "1"
+                  ]
+                },
+                "description": "Get details of a specific payment including its associated order."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"data\": {\n        \"id\": 1,\n        \"payment_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n        \"order_id\": 1,\n        \"status\": \"successful\",\n        \"payment_method\": \"credit_card\",\n        \"amount\": \"81.95\",\n        \"gateway_response\": {\n            \"success\": true,\n            \"transaction_id\": \"CC-667e1a2b3c4d5\",\n            \"message\": \"Credit card payment processed successfully\"\n        },\n        \"order\": {\n            \"id\": 1,\n            \"user_id\": 1,\n            \"status\": \"confirmed\",\n            \"total\": \"81.95\"\n        }\n    }\n}"
+            },
+            {
+              "name": "Unauthorized (403)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/payments/1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "payments",
+                    "1"
+                  ]
+                },
+                "description": "Get details of a specific payment including its associated order."
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "Text",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"Unauthorized\"\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Payment management endpoints (process, list, view)"
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000/api"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ]
+}
